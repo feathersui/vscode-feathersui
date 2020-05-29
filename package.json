@@ -1,0 +1,45 @@
+{
+  "name": "vscode-feathersui",
+  "displayName": "Feathers UI",
+  "description": "Manage Feathers UI projects in VSCode",
+  "version": "1.0.0",
+  "private": true,
+  "publisher": "bowlerhatllc",
+  "author": {
+    "name": "Josh Tynjala"
+  },
+  "homepage": "https://feathersui.com/",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/BowlerHatLLC/vscode-feathersui.git"
+  },
+  "bugs": {
+    "url": "https://github.com/BowlerHatLLC/vscode-feathersui/issues"
+  },
+  "main": "bin/extension.js",
+  "icon": "feathersui.png",
+  "scripts": {
+		"vscode:prepublish": "haxe build.hxml"
+  },
+  "keywords": [
+    "Feathers UI",
+    "Haxe",
+    "OpenFL"
+  ],
+  "license": "MIT",
+  "engines": {
+    "vscode": "^1.36.0"
+  },
+  "activationEvents": [
+    "onCommand:feathersui.newProject"
+  ],
+  "contributes": {
+    "commands": [
+      {
+        "command": "feathersui.newProject",
+        "title": "Create new project",
+        "category": "Feathers UI"
+      }
+    ]
+  }
+}

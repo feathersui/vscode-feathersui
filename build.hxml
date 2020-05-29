@@ -1,0 +1,5 @@
+-lib vscode
+-cp src
+-D js-es=6
+-js bin/extension.js
+Extension
