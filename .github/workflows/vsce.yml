@@ -15,6 +15,9 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v1
+      - uses: krdlab/setup-haxe@v1
+        with:
+          haxe-version: 4.0.5
       - run: npm ci
       - run: npm run build --if-present
       - run: npm test
