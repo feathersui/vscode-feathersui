@@ -19,7 +19,8 @@
   "main": "bin/extension.js",
   "icon": "feathersui.png",
   "scripts": {
-		"vscode:prepublish": "haxe build.hxml"
+    "build": "vsce package",
+    "vscode:prepublish": "haxe build.hxml"
   },
   "keywords": [
     "Feathers UI",
@@ -33,6 +34,9 @@
   "activationEvents": [
     "onCommand:feathersui.newProject"
   ],
+  "devDependencies": {
+    "vsce": "~1.77.0"
+  },
   "contributes": {
     "commands": [
       {
