@@ -35,7 +35,7 @@
     "onCommand:feathersui.newProject"
   ],
   "devDependencies": {
-    "vsce": "~1.77.0"
+    "vsce": "~1.93.0"
   },
   "contributes": {
     "commands": [
