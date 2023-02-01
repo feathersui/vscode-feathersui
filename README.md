@@ -7,4 +7,4 @@ Provides useful commands for [Feathers UI](https://feathersui.com/) projects cre
 1. Open an empty workspace folder in Visual Studio Code.
 1. Go to the **View** menu and choose **Command Palette…**.
    > Alternatively, use the <kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>P</kbd> keyboard shortcut (<kbd>Command</kbd>+<kbd>Shift</kbd>+<kbd>P</kbd> on macOS).
-1. Run the **Feathers UI: Create new project** command.
+1. Run the **Feathers UI: Create New Project** command.
