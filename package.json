@@ -44,7 +44,7 @@
     "commands": [
       {
         "command": "feathersui.newProject",
-        "title": "Create new project",
+        "title": "Create New Project",
         "category": "Feathers UI"
       }
     ]

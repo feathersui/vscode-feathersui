@@ -1,5 +1,7 @@
-import vscode.WorkspaceFolder;
 import vscode.ExtensionContext;
+import vscode.QuickPickItem;
+import vscode.Uri;
+import vscode.WorkspaceFolder;
 
 class Extension {
 	private static final COMMAND_OPEN_FOLDER = "Open Folder";
@@ -11,35 +13,65 @@ class Extension {
 
 	private static function createNewProject():Void {
 		var workspaceFolders = Vscode.workspace.workspaceFolders;
-		if (workspaceFolders == null) {
-			Vscode.window.showErrorMessage("Failed to create new Feathers UI project. Open an empty folder before running this command.", null,
-				COMMAND_OPEN_FOLDER)
-				.then(function(result) {
-					switch (result) {
-						case COMMAND_OPEN_FOLDER:
-							Vscode.commands.executeCommand("workbench.action.files.openFolder");
-					}
-				});
+		if (workspaceFolders == null)
+		{
+			openEmptyFolderAndCreateProject();
 			return;
 		}
-		if (workspaceFolders.length == 1) {
-			var workspaceFolder = workspaceFolders[0];
-			createNewProjectInWorkspaceFolder(workspaceFolder);
-		} else {
-			Vscode.window.showWorkspaceFolderPick().then((workspaceFolder) -> {
-				if (workspaceFolder == null) {
-					return;
-				}
-				createNewProjectInWorkspaceFolder(workspaceFolder);
-			}, (reason) -> {
-					// do nothing
-				});
+
+		var items:Array<WorkspaceFolderQuickPickItem> = [];
+		for (workspaceFolder in workspaceFolders)
+		{
+			items.push({label: workspaceFolder.name, detail: workspaceFolder.uri.fsPath, workspaceFolder: workspaceFolder});
 		}
+		items.push({label: "Open Folder…"});
+		Vscode.window.showQuickPick(items, {title: "Create new project in folder…"}).then(result ->
+		{
+			if (result == null)
+			{
+				// nothing was chosen
+				return;
+			}
+			if (result.workspaceFolder == null)
+			{
+				openEmptyFolderAndCreateProject();
+				return;
+			}
+			createNewProjectAtUri(result.workspaceFolder.uri);
+			return;
+		}, (reason) -> {});
 	}
 
-	private static function createNewProjectInWorkspaceFolder(workspaceFolder:WorkspaceFolder):Void {
+	private static function openEmptyFolderAndCreateProject():Void
+	{
+		Vscode.window.showOpenDialog({
+			title: "Open empty folder for new project…",
+			canSelectFiles: false,
+			canSelectMany: false,
+			canSelectFolders: true
+		}).then((uris) ->
+			{
+				if (uris == null || uris.length == 0)
+				{
+					return;
+				}
+				var uri = uris[0];
+				if (Vscode.workspace.updateWorkspaceFolders(0, 0, {uri: uri}))
+				{
+					createNewProjectAtUri(uri);
+				}
+				return;
+			}, (reason) -> {});
+	}
+
+	private static function createNewProjectAtUri(uri:Uri):Void {
 		var terminal = Vscode.window.createTerminal();
-		terminal.sendText("haxelib run feathersui new-project \"" + workspaceFolder.uri.fsPath + "\" --vscode");
+		terminal.sendText("haxelib run feathersui new-project \"" + uri.fsPath + "\" --vscode");
 		terminal.show();
 	}
+}
+
+private typedef WorkspaceFolderQuickPickItem = {
+	> QuickPickItem,
+	@:optional var workspaceFolder:WorkspaceFolder;
 }
