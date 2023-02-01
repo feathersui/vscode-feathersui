@@ -1,3 +1,11 @@
+/*
+	Feathers UI
+	Copyright 2023 Bowler Hat LLC. All Rights Reserved.
+
+	This program is free software. You can redistribute and/or modify it in
+	accordance with the terms of the accompanying license agreement.
+ */
+
 import vscode.ExtensionContext;
 import vscode.QuickPickItem;
 import vscode.Uri;
@@ -13,27 +21,22 @@ class Extension {
 
 	private static function createNewProject():Void {
 		var workspaceFolders = Vscode.workspace.workspaceFolders;
-		if (workspaceFolders == null)
-		{
+		if (workspaceFolders == null) {
 			openEmptyFolderAndCreateProject();
 			return;
 		}
 
 		var items:Array<WorkspaceFolderQuickPickItem> = [];
-		for (workspaceFolder in workspaceFolders)
-		{
+		for (workspaceFolder in workspaceFolders) {
 			items.push({label: workspaceFolder.name, detail: workspaceFolder.uri.fsPath, workspaceFolder: workspaceFolder});
 		}
 		items.push({label: "Open Folder…"});
-		Vscode.window.showQuickPick(items, {title: "Create new project in folder…"}).then(result ->
-		{
-			if (result == null)
-			{
+		Vscode.window.showQuickPick(items, {title: "Create new project in folder…"}).then(result -> {
+			if (result == null) {
 				// nothing was chosen
 				return;
 			}
-			if (result.workspaceFolder == null)
-			{
+			if (result.workspaceFolder == null) {
 				openEmptyFolderAndCreateProject();
 				return;
 			}
@@ -42,26 +45,22 @@ class Extension {
 		}, (reason) -> {});
 	}
 
-	private static function openEmptyFolderAndCreateProject():Void
-	{
+	private static function openEmptyFolderAndCreateProject():Void {
 		Vscode.window.showOpenDialog({
 			title: "Open empty folder for new project…",
 			canSelectFiles: false,
 			canSelectMany: false,
 			canSelectFolders: true
-		}).then((uris) ->
-			{
-				if (uris == null || uris.length == 0)
-				{
-					return;
-				}
-				var uri = uris[0];
-				if (Vscode.workspace.updateWorkspaceFolders(0, 0, {uri: uri}))
-				{
-					createNewProjectAtUri(uri);
-				}
+		}).then((uris) -> {
+			if (uris == null || uris.length == 0) {
 				return;
-			}, (reason) -> {});
+			}
+			var uri = uris[0];
+			if (Vscode.workspace.updateWorkspaceFolders(0, 0, {uri: uri})) {
+				createNewProjectAtUri(uri);
+			}
+			return;
+		}, (reason) -> {});
 	}
 
 	private static function createNewProjectAtUri(uri:Uri):Void {
