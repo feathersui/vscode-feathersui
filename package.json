@@ -38,7 +38,7 @@
     "onCommand:feathersui.newProject"
   ],
   "devDependencies": {
-    "@vscode/vsce": "~2.17.0"
+    "@vscode/vsce": "latest"
   },
   "contributes": {
     "commands": [
