@@ -31,6 +31,13 @@
     "OpenFL"
   ],
   "license": "MIT",
+  "files": [
+    "bin/extension.js",
+    "LICENSE",
+    "CHANGELOG.md",
+    "README.md",
+    "feathersui.png"
+  ],
   "engines": {
     "vscode": "^1.36.0"
   },
